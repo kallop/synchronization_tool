@@ -10,14 +10,14 @@ function default_tools() {
 function kallop_tools() {
      ALL_PKG=`grep project .repo/manifest.xml |awk '{print $3}' |cut -d'"' -f2`
      ERR_PKG=""
-     RUN_ERR_PKG=`cat fail.pkg`
+     RUN_ERR_PKG=`cat synchronization_tool/fail.pkg`
      T_PKG=$ALL_PKG
 
      while [ 1 ]
      do
        for i in $T_PKG
        do
-           grep "$i" success.pkg >/dev/null 2>&1
+           grep "$i" synchronization_tool/success.pkg >/dev/null 2>&1
            if [ $? -eq 0 ]; then
                continue
            fi
@@ -25,15 +25,15 @@ function kallop_tools() {
            if [ $? -ne 0 ];then
                echo "SYNC Error $i"
                ERR_PKG="$ERR_PKG $i"
-               grep "$i" fail.pkg >/dev/null 2>&1
+               grep "$i" synchronization_tool/fail.pkg >/dev/null 2>&1
                if [ $? -ne 0 ]; then
-                   echo "$i" >> fail.pkg
+                   echo "$i" >> synchronization_tool/fail.pkg
                fi
                continue
            else
-               grep "$i" success.pkg >/dev/null 2>&1
+               grep "$i" synchronization_tool/success.pkg >/dev/null 2>&1
                if [ $? -ne 0 ]; then
-                   echo "$i" >> success.pkg
+                   echo "$i" >> synchronization_tool/success.pkg
                fi
                echo "SYNC Success $i"
            fi
